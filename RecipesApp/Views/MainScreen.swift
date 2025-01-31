@@ -22,6 +22,7 @@ struct MainScreen: View {
             }
 
             // Lista de recetas
+            
             if isLoading {
                 ProgressView("Cargando recetas...")
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
@@ -60,7 +61,7 @@ struct MainScreen: View {
             let randomQueryRecipe = randomRecipes.randomElement()!
             let wrapper = try await ApiNetwork().getRecipesByQuery(query: randomQueryRecipe)
             recipes = wrapper.results
-            print("Recetas aleatorias obtenidas: \(recipes)") // Depuración
+            print("Recetas aleatorias obtenidas: \(recipes)") 
             isLoading = false
         } catch {
             print("Error al cargar recetas aleatorias: \(error.localizedDescription)")
@@ -71,7 +72,7 @@ struct MainScreen: View {
     func searchRecipes() {
         Task {
             if recipe.isEmpty {
-                await loadRandomRecipes() // Carga recetas aleatorias si no hay texto en el buscador
+                await loadRandomRecipes()
             } else {
                 do {
                     isLoading = true
@@ -112,5 +113,5 @@ struct RecipeItem: View {
 }
 
 #Preview {
-    MainScreen()
+    
 }
