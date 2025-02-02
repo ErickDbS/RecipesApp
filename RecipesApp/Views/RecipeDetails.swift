@@ -15,34 +15,64 @@ struct RecipeDetails: View {
     
     var body: some View {
         VStack{
-            if loading{
-                ProgressView().tint(.white)
-            } else if let recipe = recipe{
-                WebImage(url: URL(string: recipe.image))
-                    .resizable()
-                    .scaledToFit()
-                    .padding()
+            ScrollView{
                 
-                
-                Text(recipe.title)
-                    .font(.title2)
-                    .bold()
-                    .padding()
-                                
-                Text("Intructions:")
-                    .font(.title)
-                    .padding(.horizontal)
-                ScrollView{
-                    Text(recipe.instructions!)
-                        .font(.title2).italic()
+                if loading{
+                    ProgressView().tint(.white)
+                } else if let recipe = recipe{
+                    WebImage(url: URL(string: recipe.image))
+                        .resizable()
+                        .scaledToFit()
                         .padding()
+                    
+                    
+                    Text(recipe.title)
+                        .foregroundColor(.black)
+                        .font(.title2).italic()
+                        .bold()
+                        .padding()
+                    
+                    Text("Intructions:")
+                        .foregroundColor(.black)
+                        .font(.title).italic()
+                        .bold()
+                        .padding(.horizontal)
+                    
+                        Text(recipe.instructions!)
+                            .bold()
+                            .padding()
+                    
+                    Spacer()
+                    
+                    Text("Ingridients:")
+                        .foregroundColor(.black)
+                        .font(.title2).italic()
+                        .bold()
+                    
+                    ForEach(recipe.extendedIngredients, id: \.name){ingridient in
+                        HStack{
+                            Text("\(ingridient.name):")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal)
+                                .foregroundColor(.black)
+                                .bold()
+                            if let amount = ingridient.amount, let unit = ingridient.unit{
+                                Text("\(amount) \(unit)")
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                
+                            }
+                        }
+                    }
+                    
+                    
+                    
+                    
+                    
+                } else {
+                    Text("No hay imgen")
                 }
-                    
-                    
-                
-            } else {
-                Text("No hay imgen")
             }
+                
             
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.backgroundApp)
